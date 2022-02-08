@@ -1,4 +1,3 @@
-
 // Alerta para probar
 // alert("works!");
 
@@ -10,44 +9,43 @@ const HEIGTH = 400;
 // Utilizando la funcion de getRandomNumber
 // Con el maximo de los valores de la imagen
 let target = {
-    x : getRandomNumber(WIDTH),
-    y : getRandomNumber(HEIGTH)
+  x: getRandomNumber(WIDTH),
+  y: getRandomNumber(HEIGTH),
 };
 // Console.log() para mostrar donde esta el tesoro por consola
-  //console.log(target);
-  
+//console.log(target);
+
 // Elemento de la imagen en el html
-let $map = document.getElementById('Map');
+let $map = document.getElementById("Map");
 
 // Elemento del parrafo en el html
-let $distance = document.getElementById('distance');
+let $distance = document.getElementById("distance");
 
 // Contador de clicks
 let clicks = 0;
 
 // Listener del evento click con la funcion a ejecutar
-$map.addEventListener('click', function(e){
+$map.addEventListener("click", function (e) {
+  // Aumenta el contador con cada click
+  clicks++;
 
-    // Aumenta el contador con cada click
-    clicks++;
+  // Variable con la funcion de getDistance
+  // e viene dado por el evento del click y trae todos sus detalles como (x,y)
+  // target es la variable a encontrar declarada anteriormente
+  let distance = getDistance(e, target);
 
-    // Variable con la funcion de getDistance
-    // e viene dado por el evento del click y trae todos sus detalles como (x,y)
-    // target es la variable a encontrar declarada anteriormente
-    let distance = getDistance(e, target);
+  // Variable con getDistanceHint para dar una pista segun la distancia
+  let distanceHint = getDistanceHint(distance);
 
-    // Variable con getDistanceHint para dar una pista segun la distancia
-    let distanceHint = getDistanceHint(distance);
+  // La pista se inserta en el html con inner en el elemento del parrafo
+  // Se inserta este valor con un h1 gracias a los `` (backtics) de ECMA6
+  $distance.innerHTML = `<h5>Clue: ${distanceHint}</h5>`;
 
-    // La pista se inserta en el html con inner en el elemento del parrafo
-    // Se inserta este valor con un h1 gracias a los `` (backtics) de ECMA6
-    $distance.innerHTML = `<h1>${distanceHint}</h1>`;
+  // Por ultimo, si la distancia esta muy cerca del tesoro se ejecuta una alerta
+  if (distance < 20) {
+    alert(`Found The Treasure in ${clicks} clicks!`);
 
-    // Por ultimo, si la distancia esta muy cerca del tesoro se ejecuta una alerta
-    if (distance < 20) {
-        alert(`Found The Treasure in ${clicks} clicks!`);
-
-        // Y recargamos la pagina con Js para reiniciar el juego
-        location.reload();
-    }
-})
+    // Y recargamos la pagina con Js para reiniciar el juego
+    location.reload();
+  }
+});
